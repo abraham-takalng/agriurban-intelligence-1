@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="col-span-1 md:col-span-1">
           <div className="flex items-center gap-2 mb-4">
-            <Globe className="text-indigo-500 w-6 h-6" />
+            <img src="/favicon.svg" alt="AgriUrban Intelligence Logo" className="w-8 h-8 object-contain" />
             <span className="text-xl font-bold text-white tracking-tight">AGRIURBAN</span>
           </div>
           <p className="text-slate-400 text-sm leading-relaxed mb-6">

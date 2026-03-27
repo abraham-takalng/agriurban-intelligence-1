@@ -1,8 +1,22 @@
+/**
+ * Enhanced GIS data for AgriUrban Intelligence
+ */
+
 export interface KebeleData {
   id: string;
   name: string;
   population: number;
-  suitability: 'Very High' | 'High' | 'Moderate' | 'Low' | 'Very Low';
+  suitabilityScore: number;
+  mainCrop: string;
+  waterAccess: string;
+  floodRisk: string;
+  droughtVulnerability: string;
+  landslideHazard: string;
+  heatwaveExposure: string;
+  soilErosion: string;
+  agriculturalPotential: number;
+  investmentScore: number;
+  coordinates: [number, number];
   landCover: {
     builtUp: number;
     cropLand: number;
@@ -10,59 +24,110 @@ export interface KebeleData {
     water: number;
     bare: number;
   };
-  agriculturalPotential: number; // 0-100
-  urbanPotential: number; // 0-100
-  investmentScore: number; // 0-100
+  suitability: string;
 }
 
-export const kebeles: KebeleData[] = [
-  { id: '1', name: 'Araddaa Miccaa', population: 12500, suitability: 'High', landCover: { builtUp: 45, cropLand: 35, vegetation: 15, water: 2, bare: 3 }, agriculturalPotential: 78, urbanPotential: 82, investmentScore: 80 },
-  { id: '2', name: 'Baha Biiftuu', population: 9800, suitability: 'Moderate', landCover: { builtUp: 30, cropLand: 50, vegetation: 10, water: 5, bare: 5 }, agriculturalPotential: 85, urbanPotential: 65, investmentScore: 72 },
-  { id: '3', name: 'Bolee Tokkummaa', population: 15400, suitability: 'Very High', landCover: { builtUp: 60, cropLand: 20, vegetation: 15, water: 2, bare: 3 }, agriculturalPotential: 60, urbanPotential: 95, investmentScore: 92 },
-  { id: '4', name: 'Caffee Donsaa', population: 11200, suitability: 'High', landCover: { builtUp: 25, cropLand: 60, vegetation: 10, water: 2, bare: 3 }, agriculturalPotential: 88, urbanPotential: 45, investmentScore: 68 },
-  { id: '5', name: 'Coffee Horaa', population: 8900, suitability: 'Moderate', landCover: { builtUp: 15, cropLand: 70, vegetation: 10, water: 3, bare: 2 }, agriculturalPotential: 92, urbanPotential: 30, investmentScore: 65 },
-  { id: '6', name: 'Fincaa’aa Bamoo', population: 10500, suitability: 'Low', landCover: { builtUp: 10, cropLand: 55, vegetation: 25, water: 5, bare: 5 }, agriculturalPotential: 75, urbanPotential: 25, investmentScore: 45 },
-  { id: '7', name: 'Handhuraa Roobee', population: 18200, suitability: 'Very High', landCover: { builtUp: 75, cropLand: 10, vegetation: 5, water: 2, bare: 8 }, agriculturalPotential: 40, urbanPotential: 98, investmentScore: 95 },
-  { id: '8', name: 'Hawushhoo', population: 9200, suitability: 'Moderate', landCover: { builtUp: 20, cropLand: 65, vegetation: 10, water: 2, bare: 3 }, agriculturalPotential: 82, urbanPotential: 40, investmentScore: 60 },
-  { id: '9', name: 'Horaa Booqaa', population: 11000, suitability: 'High', landCover: { builtUp: 35, cropLand: 45, vegetation: 15, water: 3, bare: 2 }, agriculturalPotential: 80, urbanPotential: 60, investmentScore: 75 },
-  { id: '10', name: 'Kibxaatee', population: 13200, suitability: 'Very High', landCover: { builtUp: 55, cropLand: 25, vegetation: 15, water: 2, bare: 3 }, agriculturalPotential: 65, urbanPotential: 88, investmentScore: 85 },
-  { id: '11', name: 'Odaa Bahaa', population: 7600, suitability: 'Moderate', landCover: { builtUp: 12, cropLand: 75, vegetation: 8, water: 2, bare: 3 }, agriculturalPotential: 94, urbanPotential: 20, investmentScore: 55 },
-  { id: '12', name: 'Odaa Roobee', population: 16500, suitability: 'High', landCover: { builtUp: 65, cropLand: 15, vegetation: 10, water: 5, bare: 5 }, agriculturalPotential: 55, urbanPotential: 90, investmentScore: 88 },
-  { id: '13', name: 'Walta’i Caffee', population: 9400, suitability: 'Moderate', landCover: { builtUp: 22, cropLand: 60, vegetation: 12, water: 3, bare: 3 }, agriculturalPotential: 85, urbanPotential: 45, investmentScore: 65 },
-  { id: '14', name: 'Walta’i Tooshaa', population: 10800, suitability: 'Low', landCover: { builtUp: 18, cropLand: 65, vegetation: 10, water: 4, bare: 3 }, agriculturalPotential: 80, urbanPotential: 35, investmentScore: 50 },
-];
-
-export const landCoverTypes = [
-  { name: 'Water', color: '#3b82f6' },
-  { name: 'Tree Vegetation', color: '#22c55e' },
-  { name: 'Crop Land', color: '#eab308' },
-  { name: 'Built-up Urban', color: '#ef4444' },
-  { name: 'Bare Land', color: '#78350f' },
-];
-
-export const suitabilityColors = {
-  'Very High': '#15803d',
-  'High': '#22c55e',
-  'Moderate': '#fde047',
-  'Low': '#f97316',
-  'Very Low': '#ef4444',
+export const suitabilityColors: Record<string, string> = {
+  high: '#10b981',
+  medium: '#f59e0b',
+  low: '#ef4444'
 };
 
+export const landCoverTypes = [
+  { type: 'Urban Forest', area: '12%', color: '#059669' },
+  { type: 'Built-up', area: '45%', color: '#4b5563' },
+  { type: 'Farmland', area: '28%', color: '#84cc16' },
+  { type: 'Water Body', area: '15%', color: '#0ea5e9' }
+];
+
 export const growthHistory = [
-  { year: 2000, urbanArea: 450, agriculture: 1200 },
-  { year: 2005, urbanArea: 580, agriculture: 1150 },
-  { year: 2010, urbanArea: 720, agriculture: 1080 },
-  { year: 2015, urbanArea: 950, agriculture: 1010 },
-  { year: 2020, urbanArea: 1240, agriculture: 920 },
-  { year: 2025, urbanArea: 1680, agriculture: 810 },
-  { year: 2030, urbanArea: 2150, agriculture: 720 },
-  { year: 2035, urbanArea: 2700, agriculture: 610 },
+  { year: '2020', urban: 30, agriculture: 70 },
+  { year: '2021', urban: 35, agriculture: 65 },
+  { year: '2022', urban: 42, agriculture: 58 },
+  { year: '2023', urban: 48, agriculture: 52 },
+  { year: '2024', urban: 55, agriculture: 45 }
 ];
 
 export const investmentIndices = [
-  { name: 'Kebele Center', score: 95, color: '#4f46e5' },
-  { name: 'North Corridor', score: 82, color: '#6366f1' },
-  { name: 'South Expansion', score: 88, color: '#818cf8' },
-  { name: 'East Ag-Zone', score: 76, color: '#a5b4fc' },
-  { name: 'West Industrial', score: 64, color: '#c7d2fe' },
+  { category: 'Technology', index: 8.5, color: '#22d3ee' },
+  { category: 'Infrastructure', index: 7.2, color: '#f59e0b' },
+  { category: 'Resource Yield', index: 9.1, color: '#10b981' },
+  { category: 'Market Demand', index: 8.8, color: '#8b5cf6' }
 ];
+
+export const kebeles: KebeleData[] = [
+  { 
+    id: 'keb-01', 
+    name: 'Kirkos District - 01', 
+    population: 12500, 
+    suitabilityScore: 88, 
+    mainCrop: 'Urban Vegetables', 
+    waterAccess: 'High', 
+    floodRisk: 'Moderate', 
+    droughtVulnerability: 'Low',
+    landslideHazard: 'Low',
+    heatwaveExposure: 'High',
+    soilErosion: 'Low',
+    agriculturalPotential: 92,
+    investmentScore: 85,
+    coordinates: [38.74, 9.02],
+    landCover: { builtUp: 40, cropLand: 35, vegetation: 15, water: 5, bare: 5 },
+    suitability: 'high'
+  },
+  { 
+    id: 'keb-02', 
+    name: 'Arada District - 04', 
+    population: 8900, 
+    suitabilityScore: 65, 
+    mainCrop: 'Legumes', 
+    waterAccess: 'Medium', 
+    floodRisk: 'High', 
+    droughtVulnerability: 'Moderate',
+    landslideHazard: 'High',
+    heatwaveExposure: 'Medium',
+    soilErosion: 'Moderate',
+    agriculturalPotential: 75,
+    investmentScore: 62,
+    coordinates: [38.75, 9.03],
+    landCover: { builtUp: 60, cropLand: 20, vegetation: 10, water: 5, bare: 5 },
+    suitability: 'medium'
+  },
+  { 
+    id: 'keb-03', 
+    name: 'Bole District - 12', 
+    population: 15600, 
+    suitabilityScore: 92, 
+    mainCrop: 'Fruit Trees', 
+    waterAccess: 'High', 
+    floodRisk: 'Low', 
+    droughtVulnerability: 'High',
+    landslideHazard: 'Low',
+    heatwaveExposure: 'Low',
+    soilErosion: 'Low',
+    agriculturalPotential: 95,
+    investmentScore: 90,
+    coordinates: [38.76, 9.02],
+    landCover: { builtUp: 30, cropLand: 40, vegetation: 20, water: 5, bare: 5 },
+    suitability: 'high'
+  }
+];
+
+export const KEBELE_BOUNDARIES = {
+  type: "FeatureCollection",
+  features: kebeles.map((k) => ({
+    type: "Feature",
+    properties: k,
+    geometry: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [k.coordinates[0], k.coordinates[1]],
+          [k.coordinates[0] + 0.01, k.coordinates[1]],
+          [k.coordinates[0] + 0.01, k.coordinates[1] + 0.01],
+          [k.coordinates[0], k.coordinates[1] + 0.01],
+          [k.coordinates[0], k.coordinates[1]]
+        ]
+      ]
+    }
+  }))
+};

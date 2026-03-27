@@ -135,8 +135,8 @@ const App: React.FC = () => {
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => navigate('home')}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform">
-              <Globe className="text-white w-6 h-6" />
+            <div className="w-10 h-10 transition-transform group-hover:scale-110 duration-300 flex items-center justify-center">
+              <img src="/favicon.svg" alt="AgriUrban Intelligence Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">
@@ -241,8 +241,8 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
-                  <Globe className="text-white w-6 h-6" />
+                <div className="w-10 h-10 transition-transform hover:scale-110 duration-300 flex items-center justify-center">
+                  <img src="/favicon.svg" alt="AgriUrban Intelligence Logo" className="w-full h-full object-contain" />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight">AGRIURBAN <span className="text-cyan-500 italic">INTELLIGENCE</span></h2>
               </div>
@@ -304,7 +304,7 @@ const App: React.FC = () => {
           
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-neutral-500 text-sm">
-              © 2026 AgriUrban Intelligence. Prototype developed by <span className="text-neutral-300 font-semibold">Abraham Takalng</span>, 3rd year GIS student.
+              \u00a9 2026 AgriUrban Intelligence. Prototype developed by <span className="text-neutral-300 font-semibold">Abraham Takalng</span>, 3rd year GIS student.
             </p>
             <div className="flex gap-8 text-xs text-neutral-600 font-medium">
               <a href="#" className="hover:text-neutral-400">PRIVACY POLICY</a>
